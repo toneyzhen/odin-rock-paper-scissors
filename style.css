@@ -1,0 +1,39 @@
+.scoreboard {
+    margin-top: 40px;
+    text-align: center;
+}
+
+
+.score_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 400px;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+
+.score_box {
+width: 170px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 420px;
+    padding: 10px;
+    margin: 0 auto;
+    background-color: greenyellow;
+  }
+
+.score_info {
+    font-size: 32px;
+}
+
+
+.restart_Button {
+    margin-top: 40px;
+    text-align: center;
+}

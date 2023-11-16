@@ -3,8 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <title>Rock Paper Scissors</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+
+
 <body>
+
+    <div class="scoreboard">
+        <h2 class="score_info" id="scoreInfo">Make a choice</h2>
+        <h3 class="score_message" id="scoreMessage">First to score 5 points wins the game</h3>
+
+        <div class="score_container">
+            <div class="score_box">
+              <p class="score" id="playerScore">Player: 0</p>
+            </div>
+            <div class="score_box">
+              <p class="score" id="computerScore">Computer: 0</p>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="buttons">
+        <button id="rockButton"> Rock </button>
+        <button id="paperButton"> Paper </button>
+        <button id="scissorsButton"> Scissors</button>
+    </div>
+    <div class = restart_Button>
+        <button id="restartButton"> Restart </button>
+    </div>
+
+
   <script>
     // Your JavaScript goes here!
     
@@ -14,17 +43,17 @@
         let result = Math.floor(Math.random()*3);
         if (result == 0)
         {
-            console.log("Computer selects rock");
+            // console.log("Computer selects rock");
             return "rock";
         }
         else if (result == 1)
         {
-            console.log("Computer selects paper");
+            // console.log("Computer selects paper");
             return "paper";
         }
         else
         {
-            console.log("Computer selects scissors");
+            // console.log("Computer selects scissors");
             return "scissors";
         }
     }
@@ -73,36 +102,131 @@
 
 
 
-    function game()
-    {
-        userScore = 0;
-        computerScore = 0;
-        while (Math.max(userScore, computerScore) < 5)
-        {
-            let userResponse = prompt("Enter rock, paper, or scissors");
-            console.log("You selected " + userResponse)
-            const computerSelection = getComputerChoice();
-            let result = playRound(userResponse, computerSelection);
-            console.log(result);
-            if (result.startsWith("You Win"))
-            {
-                userScore += 1;
-            }
-            else if (result.startsWith("You Lose"))
-            {
-                computerScore += 1;
-            }
-            else
-            {
-            }
+    // function game()
+    // {
+    //     userScore = 0;
+    //     computerScore = 0;
+    //     while (Math.max(userScore, computerScore) < 5)
+    //     {
+    //         let userResponse = prompt("Enter rock, paper, or scissors");
+    //         console.log("You selected " + userResponse)
+    //         const computerSelection = getComputerChoice();
+    //         let result = playRound(userResponse, computerSelection);
+    //         console.log(result);
+    //         if (result.startsWith("You Win"))
+    //         {
+    //             userScore += 1;
+    //         }
+    //         else if (result.startsWith("You Lose"))
+    //         {
+    //             computerScore += 1;
+    //         }
+    //         else
+    //         {
+    //         }
 
-            console.log("You  " + userScore + "-" + computerScore + "  Computer");
-            console.log("--------------------------")
+    //         console.log("You  " + userScore + "-" + computerScore + "  Computer");
+    //         console.log("--------------------------")
+    //     }
+
+    // }
+
+
+
+    const rockButton = document.getElementById("rockButton");
+    const paperButton = document.getElementById("paperButton");
+    const scissorsButton = document.getElementById("scissorsButton");
+    const restartButton = document.getElementById("restartButton");
+
+    const playerScore = document.getElementById("playerScore");
+    const computerScore = document.getElementById("computerScore");
+
+    const scoreInfo = document.getElementById("scoreInfo");
+    const scoreMessage = document.getElementById("scoreMessage");
+
+    rockButton.addEventListener('click', handleChoice)
+    paperButton.addEventListener('click', handleChoice)
+    scissorsButton.addEventListener('click', handleChoice)
+
+    restartButton.addEventListener('click', () => restartGame())
+
+    
+    currentPlayerScore = 0;
+    currentComputerScore = 0;
+
+    function handleChoice(event)
+    {
+        let playerChoice = event.target.innerText; // rock, paper, or scissors
+        const computerSelection = getComputerChoice();
+        let result = playRound(playerChoice, computerSelection);
+        // console.log(result);
+        if (result.startsWith("You Win"))
+        {
+            currentPlayerScore += 1;
+        }
+        else if (result.startsWith("You Lose"))
+        {
+            currentComputerScore += 1;
+        }
+        else
+        {
+
+        }
+        
+        updateScore();
+        scoreInfo.textContent = result;
+
+
+        let gameCheck = gameWinner();
+        if (gameWinner() != "continue")
+        {
+            scoreMessage.textContent = `${gameCheck} has won the series!`
+            rockButton.removeEventListener('click', handleChoice);
+            paperButton.removeEventListener('click', handleChoice);
+            scissorsButton.removeEventListener('click', handleChoice);
         }
 
     }
 
-    game();
+
+    function updateScore()
+    {
+        playerScore.textContent = `Player: ${currentPlayerScore}`
+        computerScore.textContent = `Computer: ${currentComputerScore}`
+    }
+
+
+    function gameWinner() 
+    {
+        if (currentPlayerScore === 5)
+        {
+            return "Player";
+        }
+        else if (currentComputerScore === 5)
+        {
+            return "Computer";
+        }
+        else
+        {
+            return "continue";
+        }
+    }
+
+
+    function restartGame()
+    {
+        currentPlayerScore = 0;
+        currentComputerScore = 0;
+        playerScore.textContent = `Player: ${currentPlayerScore}`;
+        computerScore.textContent = `Computer: ${currentComputerScore}`;
+        scoreInfo.textContent = "Make a choice";
+        scoreMessage.textContent = "First to score 5 points wins the game";
+        rockButton.addEventListener('click', handleChoice);
+        paperButton.addEventListener('click', handleChoice);
+        scissorsButton.addEventListener('click', handleChoice);
+    }
+
+    // game();
 
 
 
